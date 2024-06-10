@@ -2,12 +2,12 @@
 // https://docs.swift.org/swift-book
 
 
-struct AEWalletFramework{
+public struct AEWalletFramework{
 
     var provisioningCoordinator = AccessProvisioningCoordinator()
     var authToken: ProvisioningContext?
-    func doSomeWork(){
+    public func doSomeWork(){
         print("Doing some work..")
-        provisioningCoordinator.addToWallet(authToken!)
+//        provisioningCoordinator.addToWallet(authToken!)
     }
 }
