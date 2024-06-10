@@ -8,7 +8,7 @@
 import Foundation
 import PassKit
 
-class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
+public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     private var provisioningAPI: ProvisioningAPI
 //    private var presentingViewController: AccessViewController
     private var presentingViewController: UIViewController?
@@ -153,7 +153,7 @@ extension AccessProvisioningCoordinator {
 
 
 extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDelegate {
-    func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
+    public func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
         // TODO: Handle specific error cases
         if let error = error as? PKAddSecureElementPassError {
             print(error.localizedDescription)
