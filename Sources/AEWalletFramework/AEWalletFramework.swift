@@ -8,7 +8,7 @@ public struct AEWalletFramework{
 
 //    var provisioningCoordinator = AccessProvisioningCoordinator()
 //    var authToken: ProvisioningContext?
-    public func doSomeWork(){
+    public static func doSomeWork(){
         print("Doing some work..")
 //        provisioningCoordinator.addToWallet(authToken!)
     }
