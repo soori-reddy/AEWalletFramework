@@ -23,7 +23,7 @@ extension APIResource {
             let serverURL = settingsManager.getServerURL()
             let serverPort = settingsManager.getServerPort()
             
-            var components = URLComponents(string: "https://\(serverURL!):\(serverPort!)/")!
+            var components = URLComponents(string: "https://\(serverURL!)/")!//URLComponents(string: "https://\(serverURL!):\(serverPort!)/")!
             components.path = path
             return components.url!
         }
