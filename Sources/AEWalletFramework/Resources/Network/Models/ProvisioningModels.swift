@@ -36,6 +36,16 @@ public struct ProvisioningCredential: Codable {
     var provisioningInformation: ProvisioningInformation
 }
 
+struct ProvisioningResponse:Codable{
+    let success:Bool
+    let data : ProvisioningInformation!
+    let numberOfElements : Int
+    let totalPages : Int
+    let totalElements : Int
+    let pageNumber : Int
+    let pageSize : Int
+}
+
 public struct ProvisioningInformation: Codable {
     var provisioningCredentialIdentifier: String
     var sharingInstanceIdentifier: String

@@ -7,10 +7,19 @@ import SwiftUI
 public struct AEWalletFramework{
     
     public var provisioningCoordinator = AccessProvisioningCoordinator()
-    public var authToken: ProvisioningContext?
-    public init() {}
+    public var provisioningContext: ProvisioningContext
+    
+    public init(context:ProvisioningContext, accessToken:String, accessTokenExpiration:Double) {
+        let settingsManager = SettingsManager.shared()
+        settingsManager.setAccessToken(authToken: accessToken)
+        settingsManager.setServerURL(serverURL: "/partner/v1/prepareProvisioning")
+//        settingsManager.setServerPort(serverPort: String(serverConfig!.port))
+        settingsManager.setAccessTokenExpiration(accessTokenExpiration: accessTokenExpiration)
+        provisioningContext = context
+    }
+    
     public func doSomeWork(){
         print("Doing some work..")
-        provisioningCoordinator.addToWallet(authToken!)
+        provisioningCoordinator.addToWallet(provisioningContext)
     }
 }

@@ -22,9 +22,11 @@ public class AccessProvisioningAPI: NSObject, ProvisioningAPI {
             resource = ProvisioningCredentialResource(type: context.product)
         }
         
+        let context =  ["identityId": "2", "identityMobileCredentialId": "1"]
+        let payload = try? JSONEncoder().encode(context)
         NSLog("URL for preparePassProvisioning: \(resource.url)")
         
-        let request  = PreparePassProvisioningRequest(method: .post, url: resource.url, body: context.toJSON())
+        let request  = PreparePassProvisioningRequest(method: .post, url: resource.url, body: payload)//context.toJSON())
         
         
         let session  = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
