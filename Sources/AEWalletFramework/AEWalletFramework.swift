@@ -4,7 +4,7 @@
 import Foundation
 import SwiftUI
 
-public struct AEWalletFramework{
+public class AEWalletFramework{
 
     public var provisioningCoordinator = AccessProvisioningCoordinator()
     public var authToken: ProvisioningContext?
