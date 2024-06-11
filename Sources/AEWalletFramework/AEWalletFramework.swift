@@ -9,12 +9,13 @@ public struct AEWalletFramework{
     public var provisioningCoordinator = AccessProvisioningCoordinator()
     public var provisioningContext: ProvisioningContext
     
-    public init(context:ProvisioningContext, accessToken:String, accessTokenExpiration:Double) {
+    public init(context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
         settingsManager.setServerURL(serverURL: "/partner/v1/prepareProvisioning")
 //        settingsManager.setServerPort(serverPort: String(serverConfig!.port))
         settingsManager.setAccessTokenExpiration(accessTokenExpiration: accessTokenExpiration)
+        let context = ProvisioningContext(product: "hospitality", credentialType: "hospitality" + "-credential-type", cardTemplateIdentifier: "1234", passDefinitionIdentifier: nil)
         provisioningContext = context
     }
     
