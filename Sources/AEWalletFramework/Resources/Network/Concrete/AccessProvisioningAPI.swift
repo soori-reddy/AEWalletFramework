@@ -49,11 +49,11 @@ public class AccessProvisioningAPI: NSObject, ProvisioningAPI {
                 let bodyString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) ?? "Can't render body; not utf8 encoded"
                 NSLog(bodyString as String)
                 NSLog(error.debugDescription as String)
-                let decoded = try? decoder.decode(ProvisioningInformation.self, from: data)
+                let decoded = try? decoder.decode(ProvisioningResponse.self, from: data)
                 
                 
                 if decoded != nil {
-                    let credential = ProvisioningCredential(provisioningInformation: decoded!)
+                    let credential = ProvisioningCredential(provisioningInformation: decoded!.data)
                     print(credential.provisioningInformation.cardTemplateIdentifier)
                     completion(ProvisionAPIResponse(credential: credential))
                 }
