@@ -12,7 +12,7 @@ public struct AEWalletFramework{
     public init(context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
-        settingsManager.setServerURL(serverURL: "partner/v1/prepareProvisioning")
+        settingsManager.setServerURL(serverURL: "https://nfcqalocal.alertenterprise.com")
 //        settingsManager.setServerPort(serverPort: String(serverConfig!.port))
         settingsManager.setAccessTokenExpiration(accessTokenExpiration: accessTokenExpiration)
         let context = ProvisioningContext(product: "hospitality", credentialType: "hospitality" + "-credential-type", cardTemplateIdentifier: "1234", passDefinitionIdentifier: nil)
