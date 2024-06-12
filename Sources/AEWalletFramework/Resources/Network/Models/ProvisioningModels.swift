@@ -12,8 +12,8 @@ import UIKit
 public struct ProvisioningCredentialResource: APIResource {
     var type: String
     
-    var path: String { return "/partner/v1/prepareProvisioning" }
-//    var path: String { return "/api/mobile/" + "\(type)" + "/prepareProvisioning"  }
+//    var path: String { return "/partner/v1/prepareProvisioning" }
+    var path: String { return "/api/mobile/" + "\(type)" + "/prepareProvisioning"  }
 }
 
 public struct ProvisioningCredentialResourceForPassDefinition: APIResource {
