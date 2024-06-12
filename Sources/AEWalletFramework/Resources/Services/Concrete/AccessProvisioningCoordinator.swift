@@ -11,7 +11,7 @@ import PassKit
 public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     private var provisioningAPI: ProvisioningAPI
 //    private var presentingViewController: AccessViewController
-    private var presentingViewController: UIViewController?
+    private var presentingViewController = UIViewController()
 
 //    private var passConfig: PKAddShareablePassConfiguration?
     private var provisioningContext: ProvisioningContext?
@@ -106,7 +106,7 @@ extension AccessProvisioningCoordinator {
             guard let vc = self.createSEViewController(for: config) else { return }
             
 //            self.presentingViewController.spinnerView.stopAnimating()
-            self.presentingViewController!.present(vc, animated: true)
+            self.presentingViewController.present(vc, animated: true)
         }
     }
     
@@ -162,6 +162,6 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
 //        passConfig          = nil
         provisioningContext = nil
         
-//        presentingViewController.dismiss(animated: true)
+        presentingViewController.dismiss(animated: true)
     }
 }
