@@ -3,6 +3,7 @@
 
 import Foundation
 import SwiftUI
+import PassKit
 
 public struct AEWalletFramework{
     
@@ -19,8 +20,16 @@ public struct AEWalletFramework{
         provisioningContext = context
     }
     
-    public func doSomeWork(){
+    public func doSomeWork(completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void){
         print("Doing some work..")
-        provisioningCoordinator.addToWallet(provisioningContext)
+//        provisioningCoordinator.addToWallet(provisioningContext)
+        provisioningCoordinator.addToWallet(provisioningContext) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let failure):
+                completion(.failure(failure))
+            }
+        }
     }
 }

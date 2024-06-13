@@ -7,6 +7,7 @@
 
 import Foundation
 import PassKit
+import SwiftUI
 
 public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     private var provisioningAPI: ProvisioningAPI
@@ -25,9 +26,8 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 //        self.presentingViewController = presentingVC
     }
     
-    func addToWallet(_ context: ProvisioningContext) {
+    func addToWallet(_ context: ProvisioningContext,completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void) {
         provisioningContext = context
-        
         provisioningAPI.preparePassProvisioning(context) { apiResponse in
 //            self.presentingViewController.spinnerView.startAnimating()
             
@@ -47,8 +47,18 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 return
             }
             
-            self.initiateWalletProvisioning(with: credential)
+            self.initiateWalletProvisioning(with: credential) { result in
+                switch result {
+                case .success(let passvc):
+                    completion(.success(passvc))
+                case .failure(let failure):
+                    completion(.failure("something went wrong" as! Error))
+                }
+            }
+//            passCV = self.initiateWalletProvisioning(with: credential)
+            
         }
+//        return passvc
     }
     
     private func getPassThumbnailImage(for context: ProvisioningContext) -> UIImage {
@@ -58,7 +68,7 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 }
 
 extension AccessProvisioningCoordinator {
-    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential) {
+    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential, completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void) {
         
         let provisioningInfo = provisioningResponse.provisioningInformation
         
@@ -104,9 +114,10 @@ extension AccessProvisioningCoordinator {
             }
             
             guard let vc = self.createSEViewController(for: config) else { return }
-            
+
+            completion(.success(vc))
 //            self.presentingViewController.spinnerView.stopAnimating()
-            self.presentingViewController.present(vc, animated: true)
+//            self.presentingViewController.present(vc, animated: true)
         }
     }
     
