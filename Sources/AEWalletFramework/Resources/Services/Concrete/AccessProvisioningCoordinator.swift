@@ -167,7 +167,7 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
     public func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
         // TODO: Handle specific error cases
         if let error = error as? PKAddSecureElementPassError {
-            print(error.localizedDescription)
+            print("Add card error::\(error.localizedDescription)")
         }
         
 //        passConfig          = nil
