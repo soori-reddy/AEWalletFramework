@@ -90,7 +90,7 @@ extension AccessProvisioningCoordinator {
         
         preview.ownerDisplayName = ownerDisplayName
         
-        var passMetadata = PKShareablePassMetadata(
+        let passMetadata = PKShareablePassMetadata(
             provisioningCredentialIdentifier: provisioningCredentialIdentifier,
             sharingInstanceIdentifier: sharingInstanceIdentifier,
             cardTemplateIdentifier: cardTemplateIdentifier,
