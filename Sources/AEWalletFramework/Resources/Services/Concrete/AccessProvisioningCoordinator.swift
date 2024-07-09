@@ -70,8 +70,8 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 extension AccessProvisioningCoordinator {
     private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential, completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void) {
         
-        let provisioningInfo = provisioningResponse.provisioningInformation
-        
+        var provisioningInfo = provisioningResponse.provisioningInformation
+        provisioningInfo.environmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd"
         print("intiateWalletProvisioning:: provisioning info - ", provisioningInfo)
         
         let provisioningCredentialIdentifier = provisioningInfo.provisioningCredentialIdentifier
@@ -90,14 +90,12 @@ extension AccessProvisioningCoordinator {
         
         preview.ownerDisplayName = ownerDisplayName
         
-        let passMetadata = PKShareablePassMetadata(
+        var passMetadata = PKShareablePassMetadata(
             provisioningCredentialIdentifier: provisioningCredentialIdentifier,
             sharingInstanceIdentifier: sharingInstanceIdentifier,
             cardTemplateIdentifier: cardTemplateIdentifier,
             preview: preview)
-        
-//            passMetadata.serverEnvironmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd";
-        
+                
         if let envId = environmentIdentifier {
           passMetadata.serverEnvironmentIdentifier = envId
         }
