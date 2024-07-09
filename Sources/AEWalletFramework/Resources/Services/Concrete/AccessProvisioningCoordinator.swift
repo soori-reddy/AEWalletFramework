@@ -96,9 +96,11 @@ extension AccessProvisioningCoordinator {
             cardTemplateIdentifier: cardTemplateIdentifier,
             preview: preview)
         
-//        if let envId = environmentIdentifier {
-            passMetadata.serverEnvironmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd";
-//        }
+//            passMetadata.serverEnvironmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd";
+        
+        if let envId = environmentIdentifier {
+          passMetadata.serverEnvironmentIdentifier = envId
+        }
         
         if let accountHash = provisioningInfo.accountHash, let relyingPartyIdentifier = provisioningInfo.relyingPartyIdentifier {
             passMetadata.accountHash = accountHash
