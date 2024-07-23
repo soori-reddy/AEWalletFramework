@@ -9,5 +9,5 @@ import Foundation
 import PassKit
 
 protocol ProvisioningManager {
-    func addToWallet(_ context: ProvisioningContext, completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)->Void)
+    func addToWallet(_ context: ProvisioningContext, completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)->Void)
 }
