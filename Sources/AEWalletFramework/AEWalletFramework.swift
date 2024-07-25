@@ -20,7 +20,7 @@ public struct AEWalletFramework{
         provisioningContext = context
     }
     
-    public func doSomeWork(completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void){
+    public func doSomeWork(completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void){
         print("Doing some work..")
 //        provisioningCoordinator.addToWallet(provisioningContext)
         provisioningCoordinator.addToWallet(provisioningContext) { result in

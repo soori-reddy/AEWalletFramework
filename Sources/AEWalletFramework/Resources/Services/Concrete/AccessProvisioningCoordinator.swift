@@ -26,7 +26,7 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 //        self.presentingViewController = presentingVC
     }
     
-    func addToWallet(_ context: ProvisioningContext,completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void) {
+    func addToWallet(_ context: ProvisioningContext,completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void) {
         provisioningContext = context
         provisioningAPI.preparePassProvisioning(context) { apiResponse in
 //            self.presentingViewController.spinnerView.startAnimating()
@@ -68,7 +68,7 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 }
 
 extension AccessProvisioningCoordinator {
-    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential, completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)-> Void) {
+    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential, completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void) {
         
         var provisioningInfo = provisioningResponse.provisioningInformation
         provisioningInfo.environmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd"
@@ -113,10 +113,10 @@ extension AccessProvisioningCoordinator {
                 return
             }
             
-//            completion(.success(config))
-            guard let vc = self.createSEViewController(for: config) else { return }
-
-            completion(.success(vc))
+            completion(.success(config))
+//            guard let vc = self.createSEViewController(for: config) else { return }
+//
+//            completion(.success(vc))
         }
     }
     
