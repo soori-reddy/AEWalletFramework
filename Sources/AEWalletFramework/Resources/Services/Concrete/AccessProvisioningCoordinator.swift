@@ -90,7 +90,7 @@ extension AccessProvisioningCoordinator {
         
         preview.ownerDisplayName = ownerDisplayName
         
-        var passMetadata = PKShareablePassMetadata(
+        let passMetadata = PKShareablePassMetadata(
             provisioningCredentialIdentifier: provisioningCredentialIdentifier,
             sharingInstanceIdentifier: sharingInstanceIdentifier,
             cardTemplateIdentifier: cardTemplateIdentifier,
@@ -119,22 +119,7 @@ extension AccessProvisioningCoordinator {
 //            completion(.success(vc))
         }
     }
-    
-    private func createSEViewController(for passConfig: PKAddShareablePassConfiguration) -> PKAddSecureElementPassViewController? {
-        let canAddSePass = PKAddSecureElementPassViewController.canAddSecureElementPass(configuration: passConfig)
-        guard canAddSePass else {
-            print("intiateWalletProvisioning:: Unable to add an SE Pass with specified configuration")
-            return nil
-        }
-        
-        guard let vc = PKAddSecureElementPassViewController(configuration: passConfig, delegate: self) else {
-            print("intiateWalletProvisioning:: Unable to create an SE Pass VC with specified configuration")
-            return nil
-        }
-        
-        return vc
-    }
-    
+
     private func passExists(provisioningCredentialIdentifier: String) -> Bool {
         var exists = false
         
@@ -162,16 +147,16 @@ extension AccessProvisioningCoordinator {
 }
 
 
-extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDelegate {
-    public func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
-        // TODO: Handle specific error cases
-        if let error = error as? PKAddSecureElementPassError {
-            print("Add card error::\(error.localizedDescription)")
-        }
-        
-//        passConfig          = nil
-        provisioningContext = nil
-        
-        presentingViewController.dismiss(animated: true)
-    }
-}
+//extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDelegate {
+//    public func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
+//        // TODO: Handle specific error cases
+//        if let error = error as? PKAddSecureElementPassError {
+//            print("Add card error::\(error.localizedDescription)")
+//        }
+//        
+////        passConfig          = nil
+//        provisioningContext = nil
+//        
+//        presentingViewController.dismiss(animated: true)
+//    }
+//}
