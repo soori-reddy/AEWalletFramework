@@ -9,25 +9,25 @@ import Foundation
 import PassKit
 import SwiftUI
 
-public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
+class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     private var provisioningAPI: ProvisioningAPI
-//    private var presentingViewController: AccessViewController
-    private var presentingViewController = UIViewController()
-
-//    private var passConfig: PKAddShareablePassConfiguration?
+    private var presentingViewController: UIViewController
+    
+    private var passConfig: PKAddShareablePassConfiguration?
     private var provisioningContext: ProvisioningContext?
     
     var canAddSecureElementPass: Bool {
         return PKAddPassesViewController.canAddPasses()
     }
     
-    override init(/*presentingVC: AccessViewController*/) {
+    init(presentingVC: UIViewController) {
         self.provisioningAPI          = AccessProvisioningAPI()
-//        self.presentingViewController = presentingVC
+        self.presentingViewController = presentingVC
     }
     
     func addToWallet(_ context: ProvisioningContext,completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void) {
         provisioningContext = context
+        
         provisioningAPI.preparePassProvisioning(context) { apiResponse in
 //            self.presentingViewController.spinnerView.startAnimating()
             
@@ -36,6 +36,8 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 
                 if apiResponse.error != nil {
 //                    self.presentingViewController.showAlert(title: "Error", message: apiResponse.error != nil ? apiResponse.error! : "Error fetching Credential from Server", actionTitle: "OK")
+                    let message = apiResponse.error != nil ? apiResponse.error! : "Error fetching Credential from Server"
+                    completion(.failure(message as! Error))
 //                    self.presentingViewController.spinnerView.stopAnimating()
                 }
                 return;
@@ -44,6 +46,7 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
             if (self.passExists(provisioningCredentialIdentifier: credential.provisioningInformation.provisioningCredentialIdentifier)) {
                 // TODO: Have this class return an error rather than present
 //                self.presentingViewController.showAlert(title: "Error", message: "Pass already provisioned in Wallet", actionTitle: "OK")
+                completion(.failure("Pass already provisioned in Wallet" as! Error))
                 return
             }
             
@@ -55,12 +58,11 @@ public class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                     completion(.failure("something went wrong" as! Error))
                 }
             }
-//            passCV = self.initiateWalletProvisioning(with: credential)
             
+//            self.initiateWalletProvisioning(with: credential)
         }
-//        return passvc
     }
-    
+
     private func getPassThumbnailImage(for context: ProvisioningContext) -> UIImage {
         // Unsafely unwrapping because there should always be default card art assets
         return UIImage(named: context.product + "_card_art")!
@@ -95,9 +97,9 @@ extension AccessProvisioningCoordinator {
             sharingInstanceIdentifier: sharingInstanceIdentifier,
             cardTemplateIdentifier: cardTemplateIdentifier,
             preview: preview)
-                
+        
         if let envId = environmentIdentifier {
-          passMetadata.serverEnvironmentIdentifier = envId
+            passMetadata.serverEnvironmentIdentifier = envId;
         }
         
         if let accountHash = provisioningInfo.accountHash, let relyingPartyIdentifier = provisioningInfo.relyingPartyIdentifier {
@@ -113,13 +115,28 @@ extension AccessProvisioningCoordinator {
                 return
             }
             
-            completion(.success(config))
-//            guard let vc = self.createSEViewController(for: config) else { return }
-//
-//            completion(.success(vc))
+            guard let vc = self.createSEViewController(for: config) else { return }
+            
+//            self.presentingViewController.spinnerView.stopAnimating()
+            self.presentingViewController.present(vc, animated: true)
         }
     }
-
+    
+    private func createSEViewController(for passConfig: PKAddShareablePassConfiguration) -> PKAddSecureElementPassViewController? {
+        let canAddSePass = PKAddSecureElementPassViewController.canAddSecureElementPass(configuration: passConfig)
+        guard canAddSePass else {
+            print("intiateWalletProvisioning:: Unable to add an SE Pass with specified configuration")
+            return nil
+        }
+        
+        guard let vc = PKAddSecureElementPassViewController(configuration: passConfig, delegate: self) else {
+            print("intiateWalletProvisioning:: Unable to create an SE Pass VC with specified configuration")
+            return nil
+        }
+        
+        return vc
+    }
+    
     private func passExists(provisioningCredentialIdentifier: String) -> Bool {
         var exists = false
         
@@ -147,16 +164,16 @@ extension AccessProvisioningCoordinator {
 }
 
 
-//extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDelegate {
-//    public func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
-//        // TODO: Handle specific error cases
-//        if let error = error as? PKAddSecureElementPassError {
-//            print("Add card error::\(error.localizedDescription)")
-//        }
-//        
-////        passConfig          = nil
-//        provisioningContext = nil
-//        
+extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDelegate {
+    func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
+        // TODO: Handle specific error cases
+        if let error = error as? PKAddSecureElementPassError {
+            print(error.localizedDescription)
+        }
+        
+        passConfig          = nil
+        provisioningContext = nil
+        
 //        presentingViewController.dismiss(animated: true)
-//    }
-//}
+    }
+}

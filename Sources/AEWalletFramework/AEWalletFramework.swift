@@ -7,21 +7,22 @@ import PassKit
 
 public struct AEWalletFramework{
     
-    public var provisioningCoordinator = AccessProvisioningCoordinator()
+    var provisioningCoordinator: AccessProvisioningCoordinator
     public var provisioningContext: ProvisioningContext
     
-    public init(context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
+    public init(prasentingVC: UIViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
         settingsManager.setServerURL(serverURL: "nfcqalocal.alertenterprise.com")
 //        settingsManager.setServerPort(serverPort: String(serverConfig!.port))
         settingsManager.setAccessTokenExpiration(accessTokenExpiration: accessTokenExpiration)
+        provisioningCoordinator = AccessProvisioningCoordinator(presentingVC: prasentingVC)
         let context = ProvisioningContext(product: "hospitality", credentialType: "hospitality" + "-credential-type", cardTemplateIdentifier: "1234", passDefinitionIdentifier: nil)
         provisioningContext = context
     }
     
-    public func doSomeWork(completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void){
-        print("Doing some work..")
+    public func startProvisioning(completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void){
+        print("Started AE provisionning")
 //        provisioningCoordinator.addToWallet(provisioningContext)
         provisioningCoordinator.addToWallet(provisioningContext) { result in
             switch result {
