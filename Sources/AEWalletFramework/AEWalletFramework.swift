@@ -10,7 +10,7 @@ public struct AEWalletFramework{
     var provisioningCoordinator: AccessProvisioningCoordinator
     public var provisioningContext: ProvisioningContext
     
-    init(prasentingVC: PresentingViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
+    public init(prasentingVC: PresentingViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
         settingsManager.setServerURL(serverURL: "nfcqalocal.alertenterprise.com")

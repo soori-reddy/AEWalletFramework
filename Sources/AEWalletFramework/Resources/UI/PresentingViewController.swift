@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol PresentingViewController:UIViewController{
+public protocol PresentingViewController:UIViewController{
 //    var spinnerView :UISpinnerView { get set }
 
 }
