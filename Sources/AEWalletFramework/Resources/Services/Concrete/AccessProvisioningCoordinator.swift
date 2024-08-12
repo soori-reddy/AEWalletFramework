@@ -11,7 +11,7 @@ import SwiftUI
 
 class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     private var provisioningAPI: ProvisioningAPI
-    private var presentingViewController: UIViewController
+    private var presentingViewController: PresentingViewController
     
     private var passConfig: PKAddShareablePassConfiguration?
     private var provisioningContext: ProvisioningContext?
@@ -20,7 +20,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
         return PKAddPassesViewController.canAddPasses()
     }
     
-    init(presentingVC: UIViewController) {
+    init(presentingVC: PresentingViewController) {
         self.provisioningAPI          = AccessProvisioningAPI()
         self.presentingViewController = presentingVC
     }

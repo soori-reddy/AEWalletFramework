@@ -10,7 +10,7 @@ public struct AEWalletFramework{
     var provisioningCoordinator: AccessProvisioningCoordinator
     public var provisioningContext: ProvisioningContext
     
-    public init(prasentingVC: UIViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
+    init(prasentingVC: PresentingViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
         settingsManager.setServerURL(serverURL: "nfcqalocal.alertenterprise.com")
@@ -23,7 +23,6 @@ public struct AEWalletFramework{
     
     public func startProvisioning(completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void){
         print("Started AE provisionning")
-//        provisioningCoordinator.addToWallet(provisioningContext)
         provisioningCoordinator.addToWallet(provisioningContext) { result in
             switch result {
             case .success(let success):
