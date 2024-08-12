@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 protocol PresentingViewController:UIViewController{
-    var spinnerView :UISpinnerView { get set }
+//    var spinnerView :UISpinnerView { get set }
 
 }
