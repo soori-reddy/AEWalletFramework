@@ -25,7 +25,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
         self.presentingViewController = presentingVC
     }
     
-    func addToWallet(_ context: ProvisioningContext,completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void) {
+    func addToWallet(_ context: ProvisioningContext) {
         provisioningContext = context
         
         provisioningAPI.preparePassProvisioning(context) { apiResponse in
@@ -36,8 +36,6 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 
                 if apiResponse.error != nil {
 //                    self.presentingViewController.showAlert(title: "Error", message: apiResponse.error != nil ? apiResponse.error! : "Error fetching Credential from Server", actionTitle: "OK")
-                    let message = apiResponse.error != nil ? apiResponse.error! : "Error fetching Credential from Server"
-                    completion(.failure(message as! Error))
 //                    self.presentingViewController.spinnerView.stopAnimating()
                 }
                 return;
@@ -46,20 +44,10 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
             if (self.passExists(provisioningCredentialIdentifier: credential.provisioningInformation.provisioningCredentialIdentifier)) {
                 // TODO: Have this class return an error rather than present
 //                self.presentingViewController.showAlert(title: "Error", message: "Pass already provisioned in Wallet", actionTitle: "OK")
-                completion(.failure("Pass already provisioned in Wallet" as! Error))
                 return
             }
             
-            self.initiateWalletProvisioning(with: credential) { result in
-                switch result {
-                case .success(let passvc):
-                    completion(.success(passvc))
-                case .failure(_):
-                    completion(.failure("something went wrong" as! Error))
-                }
-            }
-            
-//            self.initiateWalletProvisioning(with: credential)
+            self.initiateWalletProvisioning(with: credential)
         }
     }
 
@@ -70,7 +58,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 }
 
 extension AccessProvisioningCoordinator {
-    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential, completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void) {
+    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential) {
         
         var provisioningInfo = provisioningResponse.provisioningInformation
         provisioningInfo.environmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd"
@@ -174,6 +162,6 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
         passConfig          = nil
         provisioningContext = nil
         
-//        presentingViewController.dismiss(animated: true)
+        presentingViewController.dismiss(animated: true)
     }
 }

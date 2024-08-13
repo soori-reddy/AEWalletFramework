@@ -21,15 +21,8 @@ public struct AEWalletFramework{
         provisioningContext = context
     }
     
-    public func startProvisioning(completion:@escaping (Result<PKAddShareablePassConfiguration,Error>)-> Void){
+    public func startProvisioning(){
         print("Started AE provisionning")
-        provisioningCoordinator.addToWallet(provisioningContext) { result in
-            switch result {
-            case .success(let success):
-                completion(.success(success))
-            case .failure(let failure):
-                completion(.failure(failure))
-            }
-        }
+        provisioningCoordinator.addToWallet(provisioningContext)
     }
 }
