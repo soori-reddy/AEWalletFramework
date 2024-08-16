@@ -25,4 +25,18 @@ public struct AEWalletFramework{
         print("Started AE provisionning")
         provisioningCoordinator.addToWallet(provisioningContext)
     }
+    
+    public func canAddPass(completion:@escaping (Result<Bool,Error>)->Void) {
+        let provisionnningHelper = ProvisioningHelper()
+        provisionnningHelper.canAddPass(provisioningContext) { result in
+            switch result {
+            case .success(let canAdd):
+                completion(.success(canAdd))
+            case .failure(let failure):
+                completion(.failure(failure))
+                print("failure")
+            }
+        }
+    }
+    
 }
