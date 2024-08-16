@@ -57,7 +57,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                     //            self.presentingViewController.spinnerView.stopAnimating()
                     self.presentingViewController.present(vc, animated: true)
                 case .failure(let failure):
-                    //                    completion(.failure(failure))
+//                    completion(.failure(failure))
                     print("failure")
                 }
             }

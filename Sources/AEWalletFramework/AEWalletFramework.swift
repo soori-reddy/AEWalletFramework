@@ -9,8 +9,11 @@ public struct AEWalletFramework{
     
     var provisioningCoordinator: AccessProvisioningCoordinator
     public var provisioningContext: ProvisioningContext
+    var watchDetector: AppleWatchDetector
+    
     
     public init(prasentingVC: PresentingViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
+        watchDetector = AppleWatchDetector()
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
         settingsManager.setServerURL(serverURL: "nfcqalocal.alertenterprise.com")
@@ -37,6 +40,23 @@ public struct AEWalletFramework{
                 print("failure")
             }
         }
+    }
+    
+    public func listRemoteSecureElementPasses() -> [PKPass]{
+        let provisionnningHelper = ProvisioningHelper()
+        let remotePasses = provisionnningHelper.getRemoteSecureElementPasses();
+        return remotePasses
+    }
+    
+    public func listDeviceSecureElementPasses() -> [PKPass]{
+        let provisionnningHelper = ProvisioningHelper()
+        let devicePasses = provisionnningHelper.getPasses(of: .secureElement)
+        return devicePasses
+    }
+    
+    public func isWatchPaired() -> Bool{
+        watchDetector.detect()
+        return watchDetector.watchPaired
     }
     
 }
