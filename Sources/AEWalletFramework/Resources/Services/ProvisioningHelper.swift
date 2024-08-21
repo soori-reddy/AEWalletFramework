@@ -116,11 +116,9 @@ class ProvisioningHelper: NSObject {
         // Unsafely unwrapping because there should always be context during provisioning
         let passThumbnail = getPassThumbnailImage(for: provisioningContext!)
         
-        let preview = PKShareablePassMetadata.Preview(
-            passThumbnail: passThumbnail.cgImage!,
-            localizedDescription: localizedDescription)
+        let preview = PKShareablePassMetadata.Preview(templateIdentifier: cardTemplateIdentifier)
         
-        preview.ownerDisplayName = ownerDisplayName
+//        preview.ownerDisplayName = ownerDisplayName
         
         let passMetadata = PKShareablePassMetadata(
             provisioningCredentialIdentifier: provisioningCredentialIdentifier,
