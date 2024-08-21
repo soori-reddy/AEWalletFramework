@@ -10,7 +10,7 @@ import PassKit
 class ProvisioningHelper: NSObject {
      
     private var passLibrary:PKPassLibrary?
-    private var provisioningContext: ProvisioningContext?
+    var provisioningContext: ProvisioningContext?
     private var provisioningAPI: ProvisioningAPI
 
     override init() {

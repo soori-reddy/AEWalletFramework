@@ -14,7 +14,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     private var presentingViewController: PresentingViewController
     
     private var passConfig: PKAddShareablePassConfiguration?
-    private var provisioningContext: ProvisioningContext?
+//    private var provisioningContext: ProvisioningContext?
     private var provisioningHelper: ProvisioningHelper
     
     
@@ -29,7 +29,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     }
     
     func addToWallet(_ context: ProvisioningContext) {
-        provisioningContext = context
+        provisioningHelper.provisioningContext = context
         
         provisioningAPI.preparePassProvisioning(context) { apiResponse in
             //            self.presentingViewController.spinnerView.startAnimating()
@@ -120,7 +120,7 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
         }
         
         passConfig          = nil
-        provisioningContext = nil
+        provisioningHelper.provisioningContext = nil
         
         presentingViewController.dismiss(animated: true)
     }
