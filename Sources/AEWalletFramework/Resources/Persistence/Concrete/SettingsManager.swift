@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SettingsManager: UserDefaultsManager {
+class SettingsManager {
     
     // Singleton for SettingsManager
     private static var sharedSettingsManager: SettingsManager = {
@@ -68,20 +68,19 @@ class SettingsManager: UserDefaultsManager {
         return nil
     }
     
-    func setPassPhotoOption(isEnabled: Bool) {
-        print("Setting enable pass photo to \(isEnabled)")
-        defaults.setValue(isEnabled, forKey: passPhotoKeySuffix)
-    }
+//    func setPassPhotoOption(isEnabled: Bool) {
+//        print("Setting enable pass photo to \(isEnabled)")
+//        defaults.setValue(isEnabled, forKey: passPhotoKeySuffix)
+//    }
     
-    func getPassPhotoOption() -> Bool {
-        return defaults.bool(forKey: passPhotoKeySuffix)
-    }
+//    func getPassPhotoOption() -> Bool {
+//        return defaults.bool(forKey: passPhotoKeySuffix)
+//    }
     
     func getAccessToken() -> String? {
         if let accessToken = defaults.string(forKey: authTokenSuffix) {
             return accessToken
         }
-//        return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyX25hbWUiOiJ0ZXN0QXBwbGVBcGkiLCJ0aGlyZFBhcnR5TG9naW4iOiIiLCJpc3MiOiJUaGVQbGF5QXBwIiwic2F2ZUxvZ1RvREIiOmZhbHNlLCJsb2NhbGUiOiJlbiIsImV4cCI6MTcxNzU4OTU0MiwidGVuYW50IjoiYWxlcnQifQ.QLNomzgc_fqejobrw6Kz4wFVjQq_XqxzcEMJ37stZv9Oxa-uv6kCg4nLpQ9pbWdvfoaCyoL-M69sG6-LHYYpmA"
         print("No access token found")
         return nil
     }
