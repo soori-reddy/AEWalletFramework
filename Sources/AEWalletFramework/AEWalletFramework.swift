@@ -12,7 +12,7 @@ public struct AEWalletFramework{
     var watchDetector: AppleWatchDetector
     
     
-    public init(prasentingVC: PresentingViewController, context:ProvisioningContext?, accessToken:String, accessTokenExpiration:Double) {
+    public init(prasentingVC: PresentingViewController, identityId: String, identityMobileCredentialId: String, accessToken:String, accessTokenExpiration:Double) {
         watchDetector = AppleWatchDetector()
         let settingsManager = SettingsManager.shared()
         settingsManager.setAccessToken(authToken: accessToken)
@@ -20,7 +20,7 @@ public struct AEWalletFramework{
 //        settingsManager.setServerPort(serverPort: String(serverConfig!.port))
         settingsManager.setAccessTokenExpiration(accessTokenExpiration: accessTokenExpiration)
         provisioningCoordinator = AccessProvisioningCoordinator(presentingVC: prasentingVC)
-        let context = ProvisioningContext(product: "hospitality", credentialType: "hospitality" + "-credential-type", cardTemplateIdentifier: "1234", passDefinitionIdentifier: nil)
+        let context = ProvisioningContext(identityId: identityId, identityMobileCredentialId: identityMobileCredentialId, product: "hospitality", credentialType: "hospitality" + "-credential-type", cardTemplateIdentifier: "1234", passDefinitionIdentifier: nil)
         provisioningContext = context
     }
     

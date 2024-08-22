@@ -99,7 +99,9 @@ public struct ProvisioningContext: Codable {
     var cardTemplateIdentifier: String?
     var passDefinitionIdentifier: String?
     
-    init(product: String, credentialType: String?, cardTemplateIdentifier: String?, passDefinitionIdentifier: String?) {
+    init(identityId:String?, identityMobileCredentialId: String?, product: String, credentialType: String?, cardTemplateIdentifier: String?, passDefinitionIdentifier: String?) {
+        self.employeeId = identityId
+        self.propertyId = identityMobileCredentialId
         self.product = product
         self.credentialType = credentialType
         self.cardTemplateIdentifier = cardTemplateIdentifier

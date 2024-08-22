@@ -22,7 +22,7 @@ public class AccessProvisioningAPI: NSObject, ProvisioningAPI {
             resource = ProvisioningCredentialResource(type: context.product)
         }
         
-        let context =  ["identityId": "2", "identityMobileCredentialId": "1"]
+        let context =  ["identityId": context.employeeId, "identityMobileCredentialId": context.propertyId]//["identityId": "2", "identityMobileCredentialId": "1"]
         let payload = try? JSONEncoder().encode(context)
         NSLog("URL for preparePassProvisioning: \(resource.url)")
         
