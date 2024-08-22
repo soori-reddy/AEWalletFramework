@@ -55,8 +55,9 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 case .success(let config):
                     guard let vc = self.createSEViewController(for: config) else { return }
                     //            self.presentingViewController.spinnerView.stopAnimating()
-                    
-                    self.presentingViewController.present(vc, animated: true)
+                    DispatchQueue.main.async {
+                        self.presentingViewController.present(vc, animated: true)
+                    }
                 case .failure(let failure):
 //                    completion(.failure(failure))
                     print("failure")

@@ -159,19 +159,4 @@ class ProvisioningHelper: NSObject {
     }
 }
 
-extension ProvisioningHelper: PKAddSecureElementPassViewControllerDelegate {
-    func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
-        // TODO: Handle specific error cases
-        if let error = error as? PKAddSecureElementPassError {
-            print(error.localizedDescription)
-        }
-        
-        print("Pass add Success")
-        
-//        passConfig          = nil
-        self.provisioningContext = nil
-        
-//        presentingViewController.dismiss(animated: true)
-    }
-}
 
