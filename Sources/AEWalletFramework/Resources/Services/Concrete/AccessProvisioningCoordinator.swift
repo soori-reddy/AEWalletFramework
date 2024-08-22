@@ -55,6 +55,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 case .success(let config):
                     guard let vc = self.createSEViewController(for: config) else { return }
                     //            self.presentingViewController.spinnerView.stopAnimating()
+                    
                     self.presentingViewController.present(vc, animated: true)
                 case .failure(let failure):
 //                    completion(.failure(failure))
@@ -119,7 +120,7 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
             print(error.localizedDescription)
         }
         
-        print("Pass add Success")
+//        print("Pass add Success")
         
         passConfig          = nil
         provisioningHelper.provisioningContext = nil
