@@ -119,6 +119,8 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
             print(error.localizedDescription)
         }
         
+        print("Pass add Success")
+        
         passConfig          = nil
         provisioningHelper.provisioningContext = nil
         
