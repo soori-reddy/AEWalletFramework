@@ -50,25 +50,64 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 return
             }
             
-            self.provisioningHelper.initiateWalletProvisioning(with: credential) { result in
-                switch result {
-                case .success(let config):
-                    guard let vc = self.createSEViewController(for: config) else { return }
-                    //            self.presentingViewController.spinnerView.stopAnimating()
-                    DispatchQueue.main.async {
-                        self.presentingViewController.present(vc, animated: true)
-                    }
-                case .failure(let failure):
-//                    completion(.failure(failure))
-                    print("failure")
-                }
-            }
+            self.initiateWalletProvisioning(with: credential)
         }
     }
 
 }
 
 extension AccessProvisioningCoordinator {
+    
+    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential) {
+        
+        var provisioningInfo = provisioningResponse.provisioningInformation
+        provisioningInfo.environmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd"
+        print("intiateWalletProvisioning:: provisioning info - ", provisioningInfo)
+        
+        let provisioningCredentialIdentifier = provisioningInfo.provisioningCredentialIdentifier
+        let cardTemplateIdentifier = provisioningInfo.cardTemplateIdentifier
+        let sharingInstanceIdentifier = provisioningInfo.sharingInstanceIdentifier
+        let environmentIdentifier = provisioningInfo.environmentIdentifier
+        let ownerDisplayName = "Johnny"
+        let localizedDescription = "Pass"
+        
+        // Unsafely unwrapping because there should always be context during provisioning
+        let passThumbnail = getPassThumbnailImage(for: provisioningHelper.provisioningContext!)
+        
+        let preview = PKShareablePassMetadata.Preview(
+            passThumbnail: passThumbnail.cgImage!,
+            localizedDescription: localizedDescription)
+        
+        preview.ownerDisplayName = ownerDisplayName
+        
+        let passMetadata = PKShareablePassMetadata(
+            provisioningCredentialIdentifier: provisioningCredentialIdentifier,
+            sharingInstanceIdentifier: sharingInstanceIdentifier,
+            cardTemplateIdentifier: cardTemplateIdentifier,
+            preview: preview)
+        
+        if let envId = environmentIdentifier {
+            passMetadata.serverEnvironmentIdentifier = envId;
+        }
+        
+        if let accountHash = provisioningInfo.accountHash, let relyingPartyIdentifier = provisioningInfo.relyingPartyIdentifier {
+            passMetadata.accountHash = accountHash
+            passMetadata.relyingPartyIdentifier = relyingPartyIdentifier
+        }
+        
+        print("intiateWalletProvisioning:: Pass metadata - ", passMetadata)
+
+        PKAddShareablePassConfiguration.forPassMetadata([passMetadata], action: .add) { sePassConfig, err in
+            guard let config = sePassConfig else {
+                print("intiateWalletProvisioning:: error creating pass config - \(String(describing: err))")
+                return
+            }
+            
+            guard let vc = self.createSEViewController(for: config) else { return }
+            
+            self.presentingViewController.present(vc, animated: true)
+        }
+    }
     
     private func createSEViewController(for passConfig: PKAddShareablePassConfiguration) -> PKAddSecureElementPassViewController? {
         let canAddSePass = provisioningHelper.canAddSePass(for: passConfig)
@@ -110,6 +149,10 @@ extension AccessProvisioningCoordinator {
         return passesOfType
     }
     
+    private func getPassThumbnailImage(for context: ProvisioningContext) -> UIImage {
+        // Unsafely unwrapping because there should always be default card art assets
+        return UIImage(named: context.product + "_card_art")!
+    }
 
 }
 
