@@ -156,15 +156,14 @@ extension AccessProvisioningCoordinator {
 
 }
 
-
 extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDelegate {
     func addSecureElementPassViewController(_ controller: PKAddSecureElementPassViewController, didFinishAddingSecureElementPasses passes: [PKSecureElementPass]?, error: Error?) {
         // TODO: Handle specific error cases
+        print("AEWAlletFramework :: compeleted provisioning")
+        
         if let error = error as? PKAddSecureElementPassError {
             print(error.localizedDescription)
         }
-        
-//        print("Pass add Success")
         
         passConfig          = nil
         provisioningHelper.provisioningContext = nil
