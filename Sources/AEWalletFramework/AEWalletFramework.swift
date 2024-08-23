@@ -24,10 +24,10 @@ public struct AEWalletFramework{
         provisioningContext = context
     }
     
-//    public func startProvisioning(){
-//        print("Started AE provisionning")
-//        provisioningCoordinator.addToWallet(provisioningContext)
-//    }
+    public func startProvisioning(){
+        print("Started AE provisionning")
+        provisioningCoordinator.addToWallet(provisioningContext)
+    }
     
     public func canAddPass(completion:@escaping (Result<Bool,Error>)->Void) {
         let provisionnningHelper = ProvisioningHelper()
@@ -57,22 +57,6 @@ public struct AEWalletFramework{
     public func isWatchPaired() -> Bool{
         watchDetector.detect()
         return watchDetector.watchPaired
-    }
-    
-    
-    public func startProvisioning(){
-        print("Started AE provisionning")
-//        provisioningCoordinator.addToWallet(provisioningContext)
-        provisioningCoordinator.addToWallet(provisioningContext) { result in
-            switch result {
-            case .success(let passVC):
-                DispatchQueue.main.async {
-                    AddPassViewRepresentable(vc: passVC)
-                }
-            case .failure(let failure):
-                print("pass add failure")
-            }
-        }
     }
     
 }

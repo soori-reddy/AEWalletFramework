@@ -10,9 +10,8 @@ import PassKit
 import SwiftUI
 
 class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
-   
     private var provisioningAPI: ProvisioningAPI
-//    private var presentingViewController: PresentingViewController
+    private var presentingViewController: PresentingViewController
     
     private var passConfig: PKAddShareablePassConfiguration?
 //    private var provisioningContext: ProvisioningContext?
@@ -26,10 +25,10 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
     init(presentingVC: PresentingViewController) {
         self.provisioningAPI          = AccessProvisioningAPI()
         self.provisioningHelper = ProvisioningHelper()
-//        self.presentingViewController = presentingVC
+        self.presentingViewController = presentingVC
     }
     
-    func addToWallet(_ context: ProvisioningContext, completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)->Void) {
+    func addToWallet(_ context: ProvisioningContext) {
         provisioningHelper.provisioningContext = context
         
         provisioningAPI.preparePassProvisioning(context) { apiResponse in
@@ -51,15 +50,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
                 return
             }
             
-//            self.initiateWalletProvisioning(with: credential)
-            self.initiateWalletProvisioning(with: credential) { result in
-                switch result {
-                case .success(let vc):
-                    completion(.success(vc))
-                case .failure(let failure):
-                    completion(.failure(failure))
-                }
-            }
+            self.initiateWalletProvisioning(with: credential)
         }
     }
 
@@ -67,7 +58,7 @@ class AccessProvisioningCoordinator: NSObject, ProvisioningManager {
 
 extension AccessProvisioningCoordinator {
     
-    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential, completion:@escaping (Result<PKAddSecureElementPassViewController,Error>)->Void) {
+    private func initiateWalletProvisioning(with provisioningResponse: ProvisioningCredential) {
         
         var provisioningInfo = provisioningResponse.provisioningInformation
         provisioningInfo.environmentIdentifier = "53b70cac-ec0c-4712-b7ba-995ddc119dfd"
@@ -114,8 +105,7 @@ extension AccessProvisioningCoordinator {
             
             guard let vc = self.createSEViewController(for: config) else { return }
             
-            completion(.success(vc))
-//            self.presentingViewController.present(vc, animated: true)
+            self.presentingViewController.present(vc, animated: true)
         }
     }
     
@@ -178,6 +168,6 @@ extension AccessProvisioningCoordinator: PKAddSecureElementPassViewControllerDel
         passConfig          = nil
         provisioningHelper.provisioningContext = nil
         
-//        presentingViewController.dismiss(animated: true)
+        presentingViewController.dismiss(animated: true)
     }
 }
