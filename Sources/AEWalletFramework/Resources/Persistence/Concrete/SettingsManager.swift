@@ -54,19 +54,19 @@ class SettingsManager {
         print("Error encoding cardTemplate")
     }
     
-    func getDefaultCardTemplateIdentifier(for product: String) -> CardTemplate? {
-        if let data = defaults.data(forKey: product + cardTemplateKeySuffix) {
-            if let cardTemplate = try? JSONDecoder().decode(CardTemplate.self, from: data) {
-                return cardTemplate
-            }
-            
-            print("Error decoding cardTemplate")
-            return nil
-        }
-        
-        print("No default Card Template found for \(product)")
-        return nil
-    }
+//    func getDefaultCardTemplateIdentifier(for product: String) -> CardTemplate? {
+//        if let data = defaults.data(forKey: product + cardTemplateKeySuffix) {
+//            if let cardTemplate = try? JSONDecoder().decode(CardTemplate.self, from: data) {
+//                return cardTemplate
+//            }
+//            
+//            print("Error decoding cardTemplate")
+//            return nil
+//        }
+//        
+//        print("No default Card Template found for \(product)")
+//        return nil
+//    }
     
 //    func setPassPhotoOption(isEnabled: Bool) {
 //        print("Setting enable pass photo to \(isEnabled)")
@@ -121,17 +121,17 @@ class SettingsManager {
         defaults.setValue(serverURL, forKey: serverUrlSuffix)
     }
     
-    func getServerPort() -> String? {
-        if let serverPort = defaults.string(forKey: serverPortSuffix) {
-            return serverPort
-        }
-        print("No server port found")
-        return nil
-    }
-    
-    func setServerPort(serverPort: String) {
-        print("Setting server port")
-        print(serverPort)
-        defaults.setValue(serverPort, forKey: serverPortSuffix)
-    }
+//    func getServerPort() -> String? {
+//        if let serverPort = defaults.string(forKey: serverPortSuffix) {
+//            return serverPort
+//        }
+//        print("No server port found")
+//        return nil
+//    }
+//    
+//    func setServerPort(serverPort: String) {
+//        print("Setting server port")
+//        print(serverPort)
+//        defaults.setValue(serverPort, forKey: serverPortSuffix)
+//    }
 }

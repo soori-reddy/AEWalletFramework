@@ -10,7 +10,3 @@ import Foundation
 protocol ProvisioningAPI {
     func preparePassProvisioning(_ context: ProvisioningContext, withCompletion completion: @escaping (ProvisionAPIResponse) -> Void)
 }
-
-//protocol AppConfigAPI {
-//    func fetchAppConfig(withCompletion completion: @escaping (AppConfigResponse) -> Void)
-//}
