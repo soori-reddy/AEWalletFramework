@@ -66,7 +66,9 @@ public struct AEWalletFramework{
         provisioningCoordinator.addToWallet(provisioningContext) { result in
             switch result {
             case .success(let passVC):
-                AddPassViewRepresentable(vc: passVC)
+                DispatchQueue.main.async {
+                    AddPassViewRepresentable(vc: passVC)
+                }
             case .failure(let failure):
                 print("pass add failure")
             }
